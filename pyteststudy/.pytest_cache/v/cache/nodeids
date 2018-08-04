@@ -1,0 +1,6 @@
+[
+  "test_requests_demo3.py::TestV2exApi::()::test_node[python-90]",
+  "test_requests_demo3.py::TestV2exApi::()::test_node[java-63]",
+  "test_requests_demo3.py::TestV2exApi::()::test_node[go-375]",
+  "test_requests_demo3.py::TestV2exApi::()::test_node[nodejs-436]"
+]

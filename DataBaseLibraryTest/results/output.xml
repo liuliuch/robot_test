@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.0.4 (Python 3.6.5 on darwin)" generated="20180629 15:13:25.346">
+<suite id="s1" name="DatebaseResource" source="/Users/macbookpro/PycharmProjects/robot_test2/DataBaseLibraryTest/DatebaseResource.robot">
+<test id="s1-t1" name="重置密码">
+<kw name="发送验证码">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>host</arg>
+<arg>http://172.23.3.62:8091</arg>
+</arguments>
+<msg timestamp="20180629 15:13:25.584" level="INFO">Creating Session using : alias=host, url=http://172.23.3.62:8091, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20180629 15:13:25.584" endtime="20180629 15:13:25.584"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the</doc>
+<arguments>
+<arg>host</arg>
+<arg>${sent_email_road}${user_email}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.079" level="INFO">Get Request using : alias=host, uri=/usercenter/sendEmail4ResetPassword?email=1291823196@qq.com, headers=None json=None</msg>
+<msg timestamp="20180629 15:13:28.079" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20180629 15:13:25.585" endtime="20180629 15:13:28.079"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180629 15:13:28.080" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20180629 15:13:28.080" endtime="20180629 15:13:28.080"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${response_json}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.081" level="INFO">To JSON using : content={"result":"ok","msg":"success","code":200,"data":"The verification code has been sent to your email, please check it.","rescode":200} </msg>
+<msg timestamp="20180629 15:13:28.081" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20180629 15:13:28.081" level="INFO">${response_json} = {'result': 'ok', 'msg': 'success', 'code': 200, 'data': 'The verification code has been sent to your email, please check it.', 'rescode': 200}</msg>
+<status status="PASS" starttime="20180629 15:13:28.080" endtime="20180629 15:13:28.081"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response_json}</arg>
+<arg>msg</arg>
+</arguments>
+<assign>
+<var>${msg}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.081" level="INFO">${msg} = success</msg>
+<status status="PASS" starttime="20180629 15:13:28.081" endtime="20180629 15:13:28.081"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${msg}</arg>
+</arguments>
+<msg timestamp="20180629 15:13:28.082" level="INFO">success</msg>
+<status status="PASS" starttime="20180629 15:13:28.081" endtime="20180629 15:13:28.082"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${msg}</arg>
+<arg>success</arg>
+</arguments>
+<status status="PASS" starttime="20180629 15:13:28.082" endtime="20180629 15:13:28.082"></status>
+</kw>
+<status status="PASS" starttime="20180629 15:13:25.583" endtime="20180629 15:13:28.082"></status>
+</kw>
+<kw name="查询验证码">
+<assign>
+<var>${code}</var>
+</assign>
+<kw name="连接数据库">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>${english_line}</arg>
+</arguments>
+<msg timestamp="20180629 15:13:28.116" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='saledb', user='root', password='123456', host='172.23.3.65', port=3306)) </msg>
+<status status="PASS" starttime="20180629 15:13:28.083" endtime="20180629 15:13:28.123"></status>
+</kw>
+<status status="PASS" starttime="20180629 15:13:28.083" endtime="20180629 15:13:28.123"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>SELECT `code` FROM t_msg_email where email ='${user_email}' AND email_type = 1 AND is_verified = '0' AND expire_time &gt; now() ORDER BY create_time DESC LIMIT 1</arg>
+</arguments>
+<assign>
+<var>${code}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.124" level="INFO">Executing : Query  |  SELECT `code` FROM t_msg_email where email ='1291823196@qq.com' AND email_type = 1 AND is_verified = '0' AND expire_time &gt; now() ORDER BY create_time DESC LIMIT 1 </msg>
+<msg timestamp="20180629 15:13:28.129" level="INFO">${code} = (('002702',),)</msg>
+<status status="PASS" starttime="20180629 15:13:28.124" endtime="20180629 15:13:28.130"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${code}</arg>
+</arguments>
+<msg timestamp="20180629 15:13:28.130" level="INFO">(('002702',),)</msg>
+<status status="PASS" starttime="20180629 15:13:28.130" endtime="20180629 15:13:28.130"></status>
+</kw>
+<kw name="断开数据库连接">
+<kw name="Disconnect From Database" library="DatabaseLibrary">
+<doc>Disconnects from the database.</doc>
+<msg timestamp="20180629 15:13:28.131" level="INFO">Executing : Disconnect From Database</msg>
+<status status="PASS" starttime="20180629 15:13:28.131" endtime="20180629 15:13:28.131"></status>
+</kw>
+<status status="PASS" starttime="20180629 15:13:28.130" endtime="20180629 15:13:28.131"></status>
+</kw>
+<msg timestamp="20180629 15:13:28.132" level="INFO">${code} = (('002702',),)</msg>
+<status status="PASS" starttime="20180629 15:13:28.082" endtime="20180629 15:13:28.132"></status>
+</kw>
+<kw name="获取MD5">
+<arguments>
+<arg>${reset_psw}</arg>
+</arguments>
+<assign>
+<var>${MD5}</var>
+</assign>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>hashlib.md5('${strings}'.encode(encoding='utf8')).hexdigest()</arg>
+<arg>hashlib</arg>
+</arguments>
+<assign>
+<var>${MD5}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.133" level="INFO">${MD5} = 25d55ad283aa400af464c76d713c07ad</msg>
+<status status="PASS" starttime="20180629 15:13:28.132" endtime="20180629 15:13:28.133"></status>
+</kw>
+<msg timestamp="20180629 15:13:28.134" level="INFO">${MD5} = 25d55ad283aa400af464c76d713c07ad</msg>
+<status status="PASS" starttime="20180629 15:13:28.132" endtime="20180629 15:13:28.134"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the</doc>
+<arguments>
+<arg>host</arg>
+<arg>${reset_password}${MD5}&amp;validationCode=${code[0][0]}&amp;loginName=${user_email}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.168" level="INFO">Get Request using : alias=host, uri=/usercenter/resetPassword?password=25d55ad283aa400af464c76d713c07ad&amp;validationCode=002702&amp;loginName=1291823196@qq.com, headers=None json=None</msg>
+<msg timestamp="20180629 15:13:28.168" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20180629 15:13:28.134" endtime="20180629 15:13:28.168"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180629 15:13:28.169" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20180629 15:13:28.168" endtime="20180629 15:13:28.169"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${content}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.170" level="INFO">To JSON using : content={"result":"ok","msg":"success","code":200,"data":"Password reset success","rescode":200} </msg>
+<msg timestamp="20180629 15:13:28.170" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20180629 15:13:28.170" level="INFO">${content} = {'result': 'ok', 'msg': 'success', 'code': 200, 'data': 'Password reset success', 'rescode': 200}</msg>
+<status status="PASS" starttime="20180629 15:13:28.169" endtime="20180629 15:13:28.170"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${content}</arg>
+<arg>data</arg>
+</arguments>
+<assign>
+<var>${data}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.171" level="INFO">${data} = Password reset success</msg>
+<status status="PASS" starttime="20180629 15:13:28.170" endtime="20180629 15:13:28.171"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${data}</arg>
+<arg>Password reset success</arg>
+</arguments>
+<status status="PASS" starttime="20180629 15:13:28.171" endtime="20180629 15:13:28.171"></status>
+</kw>
+<kw name="登陆用户端">
+<arguments>
+<arg>${user_email}</arg>
+<arg>${reset_psw}</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>host</arg>
+<arg>http://172.23.3.62:8091</arg>
+</arguments>
+<msg timestamp="20180629 15:13:28.172" level="INFO">Creating Session using : alias=host, url=http://172.23.3.62:8091, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20180629 15:13:28.172" endtime="20180629 15:13:28.172"></status>
+</kw>
+<kw name="获取MD5">
+<arguments>
+<arg>${reset_psw}</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>hashlib.md5('${strings}'.encode(encoding='utf8')).hexdigest()</arg>
+<arg>hashlib</arg>
+</arguments>
+<assign>
+<var>${MD5}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.173" level="INFO">${MD5} = 25d55ad283aa400af464c76d713c07ad</msg>
+<status status="PASS" starttime="20180629 15:13:28.173" endtime="20180629 15:13:28.173"></status>
+</kw>
+<msg timestamp="20180629 15:13:28.174" level="INFO">${password} = 25d55ad283aa400af464c76d713c07ad</msg>
+<status status="PASS" starttime="20180629 15:13:28.173" endtime="20180629 15:13:28.174"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the</doc>
+<arguments>
+<arg>host</arg>
+<arg>${dologin}&amp;accountNo=${email}&amp;password=${password}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.201" level="INFO">Get Request using : alias=host, uri=/usercenter/doLogin?deviceNo=26ad0adf-bf26-421b-a670-f8ddab9f70f0&amp;accountNo=1291823196@qq.com&amp;password=25d55ad283aa400af464c76d713c07ad, headers=None json=None</msg>
+<msg timestamp="20180629 15:13:28.201" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20180629 15:13:28.174" endtime="20180629 15:13:28.201"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180629 15:13:28.202" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20180629 15:13:28.201" endtime="20180629 15:13:28.202"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${content}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.203" level="INFO">To JSON using : content={"result":"ok","msg":"success","code":200,"data":{"id":null,"userNo":null,"areaId":null,"createTime":null,"ecCode":null,"email":"1291823196@qq.com","username":null,"password":null,"unionId":null,"headIco":null,"lastLogin":null,"location":null,"lockReason":null,"mobile":"13270813896","nickname":null,"openId":null,"openIdApp":null,"openIdWeb":null,"status":1,"isDelete":1,"hometown":null,"verifyCode":"Wpb3bmg-c45j-AEYJVBRIIRV6WLEABHQAVZLRTQ-xf","responseCode":200,"responseTip":null,"loginSource":0,"deviceId":null,"ip":null,"coordinate":null,"sex":2,"isBind8Dol":1,"college":null,"picCode":null,"vipExpireTime":null,"isNewer":0,"firstName":"刘","lastName":"昌","token":"Wpb3bmg-c45j-AEYJVBRIIRV6WLEABHQAVZLRTQ-xf","vip":false},"rescode":200} </msg>
+<msg timestamp="20180629 15:13:28.203" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20180629 15:13:28.203" level="INFO">${content} = {'result': 'ok', 'msg': 'success', 'code': 200, 'data': {'id': None, 'userNo': None, 'areaId': None, 'createTime': None, 'ecCode': None, 'email': '1291823196@qq.com', 'username': None, 'password': Non...</msg>
+<status status="PASS" starttime="20180629 15:13:28.202" endtime="20180629 15:13:28.203"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${content}</arg>
+<arg>data</arg>
+</arguments>
+<assign>
+<var>${data}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.204" level="INFO">${data} = {'id': None, 'userNo': None, 'areaId': None, 'createTime': None, 'ecCode': None, 'email': '1291823196@qq.com', 'username': None, 'password': None, 'unionId': None, 'headIco': None, 'lastLogin': None, ...</msg>
+<status status="PASS" starttime="20180629 15:13:28.203" endtime="20180629 15:13:28.204"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${data}</arg>
+</arguments>
+<msg timestamp="20180629 15:13:28.204" level="INFO">{'id': None, 'userNo': None, 'areaId': None, 'createTime': None, 'ecCode': None, 'email': '1291823196@qq.com', 'username': None, 'password': None, 'unionId': None, 'headIco': None, 'lastLogin': None, 'location': None, 'lockReason': None, 'mobile': '13270813896', 'nickname': None, 'openId': None, 'openIdApp': None, 'openIdWeb': None, 'status': 1, 'isDelete': 1, 'hometown': None, 'verifyCode': 'Wpb3bmg-c45j-AEYJVBRIIRV6WLEABHQAVZLRTQ-xf', 'responseCode': 200, 'responseTip': None, 'loginSource': 0, 'deviceId': None, 'ip': None, 'coordinate': None, 'sex': 2, 'isBind8Dol': 1, 'college': None, 'picCode': None, 'vipExpireTime': None, 'isNewer': 0, 'firstName': '刘', 'lastName': '昌', 'token': 'Wpb3bmg-c45j-AEYJVBRIIRV6WLEABHQAVZLRTQ-xf', 'vip': False}</msg>
+<status status="PASS" starttime="20180629 15:13:28.204" endtime="20180629 15:13:28.205"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${data}</arg>
+<arg>token</arg>
+</arguments>
+<assign>
+<var>${token}</var>
+</assign>
+<msg timestamp="20180629 15:13:28.205" level="INFO">${token} = Wpb3bmg-c45j-AEYJVBRIIRV6WLEABHQAVZLRTQ-xf</msg>
+<status status="PASS" starttime="20180629 15:13:28.205" endtime="20180629 15:13:28.205"></status>
+</kw>
+<status status="PASS" starttime="20180629 15:13:28.171" endtime="20180629 15:13:28.205"></status>
+</kw>
+<status status="PASS" starttime="20180629 15:13:25.582" endtime="20180629 15:13:28.205" critical="yes"></status>
+</test>
+<doc>修改密码</doc>
+<status status="PASS" starttime="20180629 15:13:25.351" endtime="20180629 15:13:28.207"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0">Critical Tests</stat>
+<stat pass="1" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" id="s1" name="DatebaseResource">DatebaseResource</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -1,0 +1,8 @@
+{
+  "demo2test.py::test_sum": true,
+  "test_demo3.py::test_eval[6*9-42]": true,
+  "test_requests_demo3.py::TestV2exApi::()::test_node": true,
+  "test_user_password.py::TestUserPassword::()::test_user_password": true,
+  "test_user_password.py::TestUserPassword::()::test_user_password[user2]": true,
+  "test_user_password.py::TestUserPassword::()::test_user_password[user3]": true
+}

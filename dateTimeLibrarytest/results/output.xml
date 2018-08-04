@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.0.4 (Python 3.6.5 on darwin)" generated="20180606 14:25:33.206">
+<suite id="s1" name="dateTimeLibrarytest" source="/Users/macbookpro/PycharmProjects/robot_test2/dateTimeLibrarytest">
+<suite id="s1-s1" name="dateResource" source="/Users/macbookpro/PycharmProjects/robot_test2/dateTimeLibrarytest/dateResource.robot">
+<test id="s1-s1-t1" name="从时间减去时间">
+<kw name="Get Current Date" library="DateTime">
+<doc>Returns current local or UTC time with an optional increment.</doc>
+<assign>
+<var>${currentDate}</var>
+</assign>
+<msg timestamp="20180606 14:25:33.241" level="INFO">${currentDate} = 2018-06-06 14:25:33.241</msg>
+<status status="PASS" starttime="20180606 14:25:33.241" endtime="20180606 14:25:33.241"></status>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${currentDate[11:19]}</arg>
+</arguments>
+<assign>
+<var>${currentTime}</var>
+</assign>
+<msg timestamp="20180606 14:25:33.242" level="INFO">${currentTime} = 14:25:33</msg>
+<status status="PASS" starttime="20180606 14:25:33.241" endtime="20180606 14:25:33.242"></status>
+</kw>
+<kw name="Subtract Time From Time" library="DateTime">
+<doc>Subtracts time from another time and returns the resulting time.</doc>
+<arguments>
+<arg>${currentTime}</arg>
+<arg>100</arg>
+</arguments>
+<assign>
+<var>${time}</var>
+</assign>
+<msg timestamp="20180606 14:25:33.243" level="INFO">${time} = 51833.0</msg>
+<status status="PASS" starttime="20180606 14:25:33.242" endtime="20180606 14:25:33.243"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${time}</arg>
+</arguments>
+<msg timestamp="20180606 14:25:33.243" level="INFO">51833.0</msg>
+<status status="PASS" starttime="20180606 14:25:33.243" endtime="20180606 14:25:33.243"></status>
+</kw>
+<kw name="Subtract Time From Time" library="DateTime">
+<doc>Subtracts time from another time and returns the resulting time.</doc>
+<arguments>
+<arg>${currentTime}</arg>
+<arg>1 minute</arg>
+<arg>compact</arg>
+</arguments>
+<assign>
+<var>${time}</var>
+</assign>
+<msg timestamp="20180606 14:25:33.244" level="INFO">${time} = 14h 24min 33s</msg>
+<status status="PASS" starttime="20180606 14:25:33.243" endtime="20180606 14:25:33.244"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${time}</arg>
+</arguments>
+<msg timestamp="20180606 14:25:33.244" level="INFO">14h 24min 33s</msg>
+<status status="PASS" starttime="20180606 14:25:33.244" endtime="20180606 14:25:33.244"></status>
+</kw>
+<doc>Subtract Time From Time</doc>
+<status status="PASS" starttime="20180606 14:25:33.239" endtime="20180606 14:25:33.244" critical="yes"></status>
+</test>
+<doc>Suite description</doc>
+<status status="PASS" starttime="20180606 14:25:33.235" endtime="20180606 14:25:33.245"></status>
+</suite>
+<status status="PASS" starttime="20180606 14:25:33.209" endtime="20180606 14:25:33.245"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0">Critical Tests</stat>
+<stat pass="1" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" id="s1" name="dateTimeLibrarytest">dateTimeLibrarytest</stat>
+<stat pass="1" fail="0" id="s1-s1" name="dateResource">dateTimeLibrarytest.dateResource</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
