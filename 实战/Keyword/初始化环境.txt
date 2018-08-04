@@ -1,0 +1,8 @@
+*** Settings ***
+Library  RequestsLibrary
+
+*** Keywords ***
+连接服务开启
+    Create Session   api    http://172.23.3.62:8091
+断开连接服务
+    delete all sessions

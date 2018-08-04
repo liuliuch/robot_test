@@ -1,0 +1,15 @@
+*** Settings ***
+Documentation  登陆用户是liuchang@8dol.com
+
+*** Variables ***
+${commen_headers}       client=3&app_version=AD_1.0.5&deviceNo=8e510bea-b14e-3750-b5bc-f23679812d19
+${area}                 areaId=0&orgId=3
+${P_Login}             /usercenter/doLogin?${commen_headers}
+${P_添加地址}           /user/addAddressNewZone?buildingName=%E4%BD%A0%E4%BB%AC&phoneNumber=1327091398&addressLine1=Ning+Shuang+Lu&postCode=M19111&remark=%E5%93%88%E5%93%88&${commen_headers}&token=
+${P_地址列表}           /user/queryAddress?${commen_headers}&token=
+${P_添加购物车}         /cart/sync?${commen_headers}&${area}
+${P_去结算}             /order/confirmOrder?${commen_headers}&${area}&wholeSale=false&order_type=0&cartListStr=
+${P_获取支付token}      /api/generateToken?scene=150&${commen_headers}&token=
+${P_支付}              /orderNew/generate?${commen_headers}&${area}&selectedExpressMaterialId=0&coupon_id&order_type=0&delivery_time=ASAP&postscript
+${P_清空购物车}         /cart/clearByUserId?${commen_headers}&${area}&token=
+${weihzi}              /cart/listBriefCartByUserId?${commen_headers}&${area}&token=

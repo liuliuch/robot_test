@@ -1,0 +1,18 @@
+*** Settings ***
+Library     RequestsLibrary
+Resource    ../Resource/接口路径.txt
+
+*** Keywords ***
+获取MD5
+    [Arguments]  ${strings}
+    ${MD5}    Evaluate      hashlib.md5('${strings}'.encode(encoding='utf8')).hexdigest()     hashlib
+    [Return]    ${MD5}
+用户登录
+    [Arguments]    ${user_name}    ${password}
+    ${S_MD5_pswd}      获取MD5       ${password}
+    ${addr}     get request      api       ${P_Login}&accountNo=${user_name}&password=${S_MD5_pswd}
+    [Return]    ${addr}
+字典转换成元祖
+    [Arguments]  ${dictionary}
+    ${tuple}    Evaluate    tuple(${dictionary})
+    [Return]  ${tuple}
